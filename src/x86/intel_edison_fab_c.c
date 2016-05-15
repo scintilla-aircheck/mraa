@@ -218,7 +218,7 @@ mraa_intel_edison_gpio_close_pre(mraa_gpio_context dev)
 mraa_result_t
 mraa_intel_edison_i2c_init_pre(unsigned int bus)
 {
-    if (miniboard == 0) {
+    if (miniboard == 0 && bus != 1) {
         if (bus != 6) {
             syslog(LOG_ERR, "edison: You can't use that bus, switching to bus 6");
             bus = 6;
@@ -1628,9 +1628,13 @@ mraa_intel_edison_fab_c()
     for (ici = 0; ici < 9; ici++) {
         b->i2c_bus[ici].bus_id = -1;
     }
+    b->i2c_bus[1].bus_id = 1;
+    b->i2c_bus[1].sda = 7;
+    b->i2c_bus[1].scl = 19;
     b->i2c_bus[6].bus_id = 6;
     b->i2c_bus[6].sda = 18;
     b->i2c_bus[6].scl = 19;
+
 
     b->spi_bus_count = 1;
     b->def_spi_bus = 0;
